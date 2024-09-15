@@ -1,24 +1,31 @@
-import logo from './logo.svg';
-import './App.css';
-
+import { useState } from "react";
+import AddBlogForm from "./component/AddBlogForm";
+import Header from "./component/Header";
+import Modal from "./component/Model/Modal";
+import { BlogContextProvider } from "./store/blog-context";
+import Blogs from "./component/Blogs";
 function App() {
+  const [modalShow, setModalShow] = useState(true);
+
+  const modelShowHandler = () => {
+    setModalShow(true);
+  };
+
+  const modelCloseHandler = () => {
+    setModalShow(false);
+  };
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BlogContextProvider>
+      <div className="App">
+        <Header OnShowClickHandler={modelShowHandler} />
+        {modalShow && (
+          <Modal OnCloseClickHandler={modelCloseHandler}>
+            <AddBlogForm></AddBlogForm>
+          </Modal>
+        )}
+        <Blogs />
+      </div>
+    </BlogContextProvider>
   );
 }
 
